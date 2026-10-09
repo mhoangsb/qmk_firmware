@@ -129,30 +129,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_NO, KC_NO, MS_BTN3, MS_BTN1, MS_BTN2,    MS_BTN2, MS_BTN1, MS_BTN3, KC_NO, KC_NO
     ),
 
-    // NAV: Hold left Space. Right hand: navigation/editing; left hand: modifiers/selectors.
+    // NAV: Hold left Space. VI arrows on QWERTY H/J/K/L; left hand: modifiers/selectors.
     [NAV] = LAYOUT(
         KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,       KC_NO,                KC_NO,     KC_NO,      KC_NO,     KC_NO,    KC_NO,     KC_NO,
         KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE), KC_NO,                CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,     KC_NO,                CW_TOGG,   KC_LEFT,    KC_DOWN,   KC_UP,    KC_RGHT,   KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_NUM),   TD(TD_NAV),  KC_NO,  KC_NO, KC_NO, KC_INS,    KC_HOME,    KC_PGDN,   KC_PGUP,  KC_END,    KC_NO,
+        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,     KC_NO,                KC_LEFT,   KC_DOWN,    KC_UP,     KC_RGHT,  CW_TOGG,   KC_NO,
+        KC_NO, KC_NO,       KC_ALGR,    TD(TD_NUM),   TD(TD_NAV),  KC_NO,  KC_NO, KC_NO, KC_HOME,   KC_PGDN,    KC_PGUP,   KC_END,   KC_INS,    KC_NO,
             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    KC_ENT, KC_BSPC, KC_DEL, KC_NO, KC_NO
     ),
 
-    // MOUSE: Hold left Tab. Right hand: pointer/wheel/buttons; left hand: modifiers/selectors.
+    // MOUSE: Hold left Tab. VI pointer/wheel arrangement; left hand: modifiers/selectors.
     [MOUSE] = LAYOUT(
         KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,        KC_NO,                KC_NO,     KC_NO,      KC_NO,     KC_NO,    KC_NO,     KC_NO,
         KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE),  KC_NO,                CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                KC_NO,     MS_LEFT,    MS_DOWN,   MS_UP,    MS_RGHT,   KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_SYM),   TD(TD_MOUSE), KC_NO,  KC_NO, KC_NO, KC_NO,     MS_WHLL,    MS_WHLD,   MS_WHLU,  MS_WHLR,   KC_NO,
+        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                MS_LEFT,   MS_DOWN,    MS_UP,     MS_RGHT,  KC_NO,     KC_NO,
+        KC_NO, KC_NO,       KC_ALGR,    TD(TD_SYM),   TD(TD_MOUSE), KC_NO,  KC_NO, KC_NO, MS_WHLL,   MS_WHLD,    MS_WHLU,   MS_WHLR,  KC_NO,     KC_NO,
             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    MS_BTN2, MS_BTN1, MS_BTN3, KC_NO, KC_NO
     ),
 
-    // MEDIA: Hold left Escape. Right hand: RGB/media/output; left hand: modifiers/selectors.
+    // MEDIA: Hold left Escape. VI RGB/media/output arrangement; left hand: modifiers/selectors.
     [MEDIA] = LAYOUT(
         KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,        KC_NO,                KC_NO,      KC_NO,    KC_NO,      KC_NO,      KC_NO,      KC_NO,
-        KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE),  KC_NO,                RGB_TOGGLE, RGB_NEXT, RGB_HUE_UP, RGB_SAT_UP, RGB_VAL_UP, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                KC_NO,      KC_MPRV,  KC_VOLD,    KC_VOLU,    KC_MNXT,    KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_FUN),   TD(TD_MEDIA), KC_NO,  KC_NO, KC_NO, OU_AUTO,    KC_NO,    KC_NO,      KC_NO,      KC_NO,      KC_NO,
+        KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE),  KC_NO,                RGB_NEXT,   RGB_HUE_UP, RGB_SAT_UP, RGB_VAL_UP, RGB_TOGGLE, KC_NO,
+        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                KC_MPRV,    KC_VOLD,    KC_VOLU,    KC_MNXT,    KC_NO,      KC_NO,
+        KC_NO, KC_NO,       KC_ALGR,    TD(TD_FUN),   TD(TD_MEDIA), KC_NO,  KC_NO, KC_NO, KC_NO,      KC_NO,      KC_NO,      KC_NO,      OU_AUTO,    KC_NO,
             KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    KC_MSTP, KC_MPLY, KC_MUTE, KC_NO, KC_NO
     ),
 

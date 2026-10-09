@@ -1,10 +1,13 @@
 # mhoangsb: self-contained Miryoku for Sofle
 
-This directory contains a complete, editable implementation of the default
+This directory contains a complete, editable implementation of the
 Miryoku layout from `/home/mhoang/dev/miryoku_qmk`. The starting configuration is
 QWERTY on BASE, Colemak DH on EXTRA, QWERTY without hold actions on TAP, the
-original navigation arrangement, and the original clipboard profile. All ten
+VI navigation arrangement, and the original clipboard profile. All ten
 layers are included. Every Sofle position is written explicitly in `keymap.c`.
+
+NAV, MOUSE, and MEDIA use the upstream `MIRYOKU_NAV=VI` arrangement, written
+directly into the arrays. No build flag is needed to enable it.
 
 Only the usual QMK framework and Sofle hardware definition are required. There
 are no dependencies on `users/manna-harbour_miryoku`, Miryoku Babel, a generated
@@ -215,30 +218,38 @@ Undo Cut Copy Paste Redo           Redo Paste Copy Cut Undo
 
 ```text
 Boot2 Tap2 Extra2 Base2 --         Redo Paste Copy Cut Undo
-GUI   Alt  Ctrl   Shift --        Word Left  Down Up  Right
---    AltGr Num2  Nav2  --        Ins  Home  PgDn PgUp End
+GUI   Alt  Ctrl   Shift --        Left Down Up Right Word
+--    AltGr Num2  Nav2  --        Home PgDn PgUp End Ins
           -- -- --                Enter Bspc Delete
 ```
 
-The default arrows form a horizontal Left/Down/Up/Right row. To make an inverted
-T, edit the right-hand NAV positions directly; for example place Up at `R12` and
+VI places Left/Down/Up/Right at `R20/R21/R22/R23`, the QWERTY H/J/K/L positions.
+These keys send ordinary arrow keycodes in any application. Caps Word moves to
+`R24`, the QWERTY apostrophe position. Home/Page Down/Page Up/End/Insert occupy
+`R30..R34`. These physical positions stay the same on Colemak DH EXTRA.
+
+To make an inverted T, edit the right-hand NAV positions directly; for example
+place Up at `R12` and
 Left/Down/Right at `R21/R22/R23`. The same choice can be made for MOUSE separately.
 
 ### MOUSE: hold left Tab
 
 ```text
 Boot2 Tap2 Extra2 Base2 --         Redo Paste Copy Cut Undo
-GUI   Alt  Ctrl   Shift --        --   MsLeft MsDown MsUp MsRight
---    AltGr Sym2  Mouse2 --       --   WhLeft WhDown WhUp WhRight
+GUI   Alt  Ctrl   Shift --        MsLeft MsDown MsUp MsRight --
+--    AltGr Sym2  Mouse2 --       WhLeft WhDown WhUp WhRight --
           -- -- --                Btn2 Btn1 Btn3
 ```
+
+Pointer movement uses the same H/J/K/L positions as VI navigation. Wheel
+movement uses the four positions directly below them (`R30..R33`).
 
 ### MEDIA: hold left Escape
 
 ```text
-Boot2 Tap2 Extra2 Base2 --         RGBtoggle RGBnext Hue+ Sat+ Value+
-GUI   Alt  Ctrl   Shift --        --        Prev    Vol- Vol+ Next
---    AltGr Fun2  Media2 --       OutputAuto --     --   --   --
+Boot2 Tap2 Extra2 Base2 --         RGBnext Hue+ Sat+ Value+ RGBtoggle
+GUI   Alt  Ctrl   Shift --        Prev Vol- Vol+ Next --
+--    AltGr Fun2  Media2 --       -- -- -- -- OutputAuto
           -- -- --                Stop Play/Pause Mute
 ```
 
@@ -423,7 +434,7 @@ application treats them alike.
 
 ### Caps Word, Caps Lock, and Auto Shift
 
-Open NAV and tap `CW_TOGG` (right home-row innermost position) to toggle Caps
+Open NAV and tap `CW_TOGG` at `R24` (QWERTY apostrophe position) to toggle Caps
 Word. QMK capitalizes word characters until a terminating key; this is different
 from toggling the host's Caps Lock state. Hold Shift and tap this same key for
 ordinary Caps Lock; the key override handles that replacement.
@@ -498,6 +509,7 @@ there is no manual `COMBO_COUNT` to maintain.
 
 - All ten default layers are expanded into native Sofle arrays. Generated
   `MIRYOKU_LAYER_*` macros and the `LAYOUT_miryoku` mapping are gone.
+- NAV, MOUSE, and MEDIA use the upstream VI alternative arrangement.
 - Modern QMK key override, mouse (`MS_*`), and RGB keycode forms replace the old APIs.
 - The obsolete `IGNORE_MOD_TAP_INTERRUPT` define is omitted; current QMK already
   supplies that mod-tap behavior by default.
@@ -509,10 +521,12 @@ there is no manual `COMBO_COUNT` to maintain.
 - Original `U_NA` (unavailable), `U_NU` (unused), and unused physical positions
   are written directly as `KC_NO`; their runtime behavior is identical.
 
-Build flags such as `MIRYOKU_ALPHAS=QWERTY` or `MIRYOKU_NAV=INVERTEDT` do not
-select layouts in this standalone version. Edit the exposed arrays directly.
+Build flags such as `MIRYOKU_ALPHAS=QWERTY`, `MIRYOKU_NAV=VI`, or
+`MIRYOKU_NAV=INVERTEDT` do not select layouts in this standalone version. Edit
+the exposed arrays directly.
 Other upstream alternatives are not a hidden selectable collection here: the
-included arrays are the complete default layout plus its EXTRA and TAP layers.
+included arrays are the complete layout with VI navigation plus its EXTRA and
+TAP layers.
 
 Miryoku design and original implementation: Manna Harbour,
 <https://github.com/manna-harbour/miryoku> and
