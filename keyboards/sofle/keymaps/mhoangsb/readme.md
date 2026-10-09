@@ -1,5 +1,8 @@
 # mhoangsb: self-contained Miryoku for Sofle
 
+See the [visual layer guide](visual-guide.md) for full keyboard images, tap/hold
+views, and instructions for reaching every layer.
+
 This directory contains a complete, editable implementation of the
 Miryoku layout from `/home/mhoang/dev/miryoku_qmk`. The starting configuration is
 QWERTY on BASE, Colemak DH on EXTRA, QWERTY without hold actions on TAP, the
