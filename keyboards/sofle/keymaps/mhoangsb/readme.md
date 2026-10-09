@@ -13,10 +13,11 @@ Only the usual QMK framework and Sofle hardware definition are required. There
 are no dependencies on `users/manna-harbour_miryoku`, Miryoku Babel, a generated
 layer header, another keymap directory, images, or extra local fonts.
 
-The original Miryoku Sofle mapping uses 36 keys. This version preserves that
-mapping: number row, outer columns, four spare thumb keys, and encoder buttons
-start as `KC_NO`. They are present in every layer array, ready to assign. Encoder
-rotation remains usable: left = volume, right = page up/down.
+The original Miryoku Sofle mapping uses 36 keys. This version keeps those core
+positions and assigns all 24 extra positions for coding: numbers, editing keys,
+direct modifiers, and audio controls. Functional layers inherit the extra keys
+with NAV, MEDIA, and FUN overrides described below. This keyboard has ordinary
+switches in the encoder button positions, so rotary support is disabled.
 
 ## 1. Start here
 
@@ -85,8 +86,9 @@ qmk compile -c -kb sofle/rev1 -km mhoangsb
 
 ## 3. Physical positions and LAYOUT argument order
 
-Each layer supplies 60 positions: 58 ordinary keys and two encoder push buttons.
-The fourth line has fourteen arguments because it includes the encoder buttons.
+Each layer supplies 60 positions: 58 ordinary keys and two replacement switches
+at the encoder push-button positions. The fourth line has fourteen arguments
+because it includes those two switches.
 The final line has ten thumb-row arguments. Keep the order `12, 12, 12, 14, 10`.
 Finger columns use compact alignment within each layer; thumb rows use their own
 spacing so long `LT()` expressions do not widen the rest of the array. The gap
@@ -107,20 +109,77 @@ L30 L31 L32 L33 L34 L35 [LENC]      [RENC] R30 R31 R32 R33 R34 R35
 Active Miryoku finger positions are `L11..L15`, `L21..L25`, `L31..L35` and
 `R10..R14`, `R20..R24`, `R30..R34`. Active thumbs are `L42..L44` and `R41..R43`.
 
-Spare positions are:
+The 24 extra positions outside the Miryoku core are:
 
 - `L00..L05`, `R00..R05`: number row.
 - `L10`, `L20`, `L30`, `R15`, `R25`, `R35`: outer columns.
-- `LENC`, `RENC`: encoder push buttons.
+- `LENC`, `RENC`: normal switches at the encoder push-button positions.
 - `L40`, `L41`, `R44`, `R45`: extra thumb keys.
 
 `KC_NO` means the position does nothing and blocks fallback to lower layers.
 `KC_TRNS` means use the assignment from a lower active/default layer. Aliases
 `XXXXXXX` and `_______` mean `KC_NO` and `KC_TRNS`, respectively.
 
-This is why adding an extra key only to BASE does not automatically make it work
-on NAV: NAV's corresponding position is currently `KC_NO`. Change that position
-to `KC_TRNS` on layers where you want the BASE assignment to remain available.
+Extra positions use explicit assignments on BASE, EXTRA, and TAP. BUTTON, NAV,
+MOUSE, MEDIA, NUM, SYM, and FUN use `KC_TRNS` there, except for the overrides
+below. Intentional `KC_NO` entries inside the 36-key Miryoku core stay blocked;
+do not replace them all with transparency.
+
+### Extra keys for coding
+
+BASE, EXTRA, and TAP have the same extra-key assignments:
+
+| Physical positions | Assignments, left to right |
+| --- | --- |
+| `L00..L05` | Backtick, 1, 2, 3, 4, 5 |
+| `R00..R05` | 6, 7, 8, 9, 0, Equals |
+| `L10/L20/L30` | Escape, Tab, Left Shift |
+| `R15/R25/R35` | Backspace, Backslash, Enter |
+| `L40/L41` | Left Alt, Left Ctrl |
+| `R44/R45` | Left Shift, Left GUI |
+| `LENC/RENC` | Mute, Play/Pause |
+
+These are ordinary keycodes with no tap/hold actions. Holding the extra Ctrl
+or Shift activates that modifier immediately. GUI is Windows/Super/Command,
+depending on the host. Shift provides the usual shifted number-row symbols,
+tilde, plus, and pipe with a US host layout; eligible keys also retain Auto Shift.
+
+```text
+`  1 2 3 4 5                      6 7 8 9 0 =
+Esc [Miryoku upper finger row]     [Miryoku upper finger row] Bspc
+Tab [Miryoku home row]             [Miryoku home row]         \
+Sft [Miryoku lower finger row] [Mute] [Play] [Miryoku lower finger row] Enter
+    Alt Ctrl [Esc Space Tab]       [Enter Bspc Delete] Shift GUI
+```
+
+Bracketed three-key thumb groups above show BASE/EXTRA tap actions; their
+existing layer holds are still available. On TAP, those six thumbs are plain keys.
+
+| Layer | Extra-key override |
+| --- | --- |
+| FUN | Number row becomes F1..F6 on the left, F7..F12 on the right |
+| NAV | `LENC` sends Ctrl+O; `RENC` sends Ctrl+I |
+| MEDIA | `LENC` sends Volume Down; `RENC` sends Volume Up |
+
+All other extra positions inherit the selected typing/default layer, including
+the direct modifiers and editing keys. For example, holding left Space for NAV
+still leaves the outer Escape and spare thumb Ctrl available.
+
+### Neovim examples
+
+- Press the outer Escape (`L10`) to leave Insert mode without tap/hold timing.
+- Hold spare thumb Ctrl (`L41`) and press W, then a window command, for Neovim's
+  `Ctrl-W` window operations. Use Ctrl+U/D to scroll or Ctrl+R to redo in Normal mode.
+- In Normal mode, hold the left Space thumb for NAV, then press `LENC` for
+  Ctrl+O (older jump) or `RENC` for Ctrl+I (newer jump). These use Neovim's
+  default jump-list commands; your own mappings may change their behavior.
+  Terminals often treat Ctrl+I and Tab as the same input.
+- Use the extra Shift keys for coding symbols while retaining home-row modifiers.
+
+Neovim command reference: <https://neovim.io/doc/user/vimindex/>.
+The firmware sends these keys in every application; it does not detect Neovim
+or its mode. File finding, formatting, diagnostics, and plugin shortcuts remain
+configured in Neovim rather than being added as firmware command sequences.
 
 ## 4. Tap/hold behavior and the six thumb layers
 
@@ -154,9 +213,9 @@ letters are different.
 
 ## 5. Complete layer reference
 
-The following diagrams show the 36 active positions only. Each finger row has
-five keys per hand, and the thumb row has three per hand. The source arrays also
-include all 24 spare Sofle positions.
+The following diagrams show the 36 Miryoku core positions only. Each finger row
+has five keys per hand, and the thumb row has three per hand. The 24 extra Sofle
+positions and their layer overrides are documented in section 3.
 
 Legend:
 
@@ -361,23 +420,24 @@ BASE already starts in QWERTY. To start in Colemak DH, replace the startup `BASE
 with `EXTRA` in `keyboard_post_init_user()`. EXTRA has all Miryoku hold actions.
 TAP remains QWERTY until you edit it.
 
-### Use the number row and spare keys
+### Customize the number row and extra keys
 
-The first row in BASE can become:
+The first row in BASE, EXTRA, and TAP is already:
 
 ```c
 KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5,
 KC_6, KC_7, KC_8, KC_9, KC_0, KC_EQL,
 ```
 
-Keep it as one twelve-argument row inside `LAYOUT`. Repeat this assignment on
-EXTRA/TAP if desired. Set the corresponding row to twelve `KC_TRNS` entries on
-functional layers if those keys should keep using the typing layer assignment.
+Keep it as one twelve-argument row inside `LAYOUT`. Edit all three typing layers
+if you want a shared assignment. Functional layers already inherit this row,
+except FUN, whose row is F1..F12. The same inheritance applies to the outer
+columns and extra thumbs. NAV and MEDIA have explicit replacement-button actions.
 
-Other useful spare assignments are `KC_ESC`, `KC_LSFT`, `MO(NAV)`, `CW_TOGG`, or
+Other useful extra assignments are `KC_ESC`, `KC_LSFT`, `MO(NAV)`, `CW_TOGG`, or
 `TD(TD_BASE)`. For example, replace the first thumb argument (`L40`) on TAP with
 `TD(TD_BASE)` to allow returning from TAP without reconnecting USB. Replace
-`LENC` with `KC_MUTE` to mute by pressing the left encoder.
+`LENC` is already `KC_MUTE` on all three typing layers.
 
 ### Add a layer
 
@@ -459,6 +519,12 @@ match upstream Miryoku. Wheel delay has its own setting.
 
 ### Encoders, OLED, and RGB
 
+`ENCODER_ENABLE = no` matches this keyboard's normal replacement switches.
+Their actions are matrix keycodes in `LAYOUT` and work with rotation disabled.
+If real encoders are installed later, set `ENCODER_ENABLE = yes` in `rules.mk`.
+The retained callback then uses left rotation for volume and right rotation
+for page up/down.
+
 `encoder_update_user()` currently ignores layers. Change its `tap_code16(...)`
 keycodes to change the actions. To make them depend on the layer, switch on
 `get_highest_layer(layer_state | default_layer_state)` inside that function.
@@ -510,6 +576,8 @@ there is no manual `COMBO_COUNT` to maintain.
 - All ten default layers are expanded into native Sofle arrays. Generated
   `MIRYOKU_LAYER_*` macros and the `LAYOUT_miryoku` mapping are gone.
 - NAV, MOUSE, and MEDIA use the upstream VI alternative arrangement.
+- The 24 extra physical positions have coding, modifier, and audio assignments.
+  Functional layers inherit them, with NAV/MEDIA button and FUN number-row overrides.
 - Modern QMK key override, mouse (`MS_*`), and RGB keycode forms replace the old APIs.
 - The obsolete `IGNORE_MOD_TAP_INTERRUPT` define is omitted; current QMK already
   supplies that mod-tap behavior by default.
@@ -518,8 +586,8 @@ there is no manual `COMBO_COUNT` to maintain.
   to the current session.
 - Simple local encoder and OLED callbacks are included for Sofle convenience.
 - Optional upstream combos are local and disabled by default.
-- Original `U_NA` (unavailable), `U_NU` (unused), and unused physical positions
-  are written directly as `KC_NO`; their runtime behavior is identical.
+- Original `U_NA` (unavailable) and `U_NU` (unused) positions inside the Miryoku
+  core are written directly as `KC_NO`; their runtime behavior is identical.
 
 Build flags such as `MIRYOKU_ALPHAS=QWERTY`, `MIRYOKU_NAV=VI`, or
 `MIRYOKU_NAV=INVERTEDT` do not select layouts in this standalone version. Edit

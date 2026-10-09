@@ -10,8 +10,9 @@ KEY_OVERRIDE_ENABLE = yes
 # Upstream optional thumb combos. Enable to compile section 9 in keymap.c.
 COMBO_ENABLE = no
 
-# Local Sofle encoder/OLED callbacks are guarded so these can be turned off.
-ENCODER_ENABLE = yes
+# This Sofle has normal switches in the encoder push-button positions.
+# Matrix button actions work without rotary support. Enable only with encoders.
+ENCODER_ENABLE = no
 ENCODER_MAP_ENABLE = no
 OLED_ENABLE = yes
 OLED_DRIVER = ssd1306

@@ -80,8 +80,9 @@ enum tap_dances {
 // 5. Complete Sofle LAYOUT arrays: 60 positions, including encoder buttons.
 // No LAYOUT_miryoku wrapper, generated layer macros, or shared userspace.
 // KC_NO blocks a position. KC_TRNS inherits from lower active/default layers.
-// Spare positions remain KC_NO to preserve the upstream 36-key mapping.
-// Edit these positions directly to use Sofle's extra keys.
+// The 24 extra positions add numbers, editing keys, direct modifiers, and audio.
+// Functional layers inherit these extras, with NAV/MEDIA button and FUN row overrides.
+// Intentional KC_NO entries inside the Miryoku core remain blocked.
 //
 // Argument order, viewed from above (left/right labels are physical positions):
 // L00 L01 L02 L03 L04 L05                    R00 R01 R02 R03 R04 R05
@@ -95,92 +96,92 @@ enum tap_dances {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // BASE: QWERTY. Home-row modifiers, AltGr on X/dot, Button on Z/slash.
     [BASE] = LAYOUT(
-        KC_NO, KC_NO,           KC_NO,        KC_NO,        KC_NO,        KC_NO,                KC_NO, KC_NO,        KC_NO,        KC_NO,          KC_NO,              KC_NO,
-        KC_NO, KC_Q,            KC_W,         KC_E,         KC_R,         KC_T,                 KC_Y,  KC_U,         KC_I,         KC_O,           KC_P,               KC_NO,
-        KC_NO, LGUI_T(KC_A),    LALT_T(KC_S), LCTL_T(KC_D), LSFT_T(KC_F), KC_G,                 KC_H,  LSFT_T(KC_J), LCTL_T(KC_K), LALT_T(KC_L),   LGUI_T(KC_QUOT),    KC_NO,
-        KC_NO, LT(BUTTON,KC_Z), ALGR_T(KC_X), KC_C,         KC_V,         KC_B,   KC_NO, KC_NO, KC_N,  KC_M,         KC_COMM,      ALGR_T(KC_DOT), LT(BUTTON,KC_SLSH), KC_NO,
-            KC_NO, KC_NO, LT(MEDIA,KC_ESC), LT(NAV,KC_SPC), LT(MOUSE,KC_TAB),    LT(SYM,KC_ENT), LT(NUM,KC_BSPC), LT(FUN,KC_DEL), KC_NO, KC_NO
+        KC_GRV,   KC_1,             KC_2,          KC_3,          KC_4,          KC_5,                        KC_6,  KC_7,          KC_8,          KC_9,            KC_0,                KC_EQL,
+        KC_ESC,   KC_Q,             KC_W,          KC_E,          KC_R,          KC_T,                        KC_Y,  KC_U,          KC_I,          KC_O,            KC_P,                KC_BSPC,
+        KC_TAB,   LGUI_T(KC_A),     LALT_T(KC_S),  LCTL_T(KC_D),  LSFT_T(KC_F),  KC_G,                        KC_H,  LSFT_T(KC_J),  LCTL_T(KC_K),  LALT_T(KC_L),    LGUI_T(KC_QUOT),     KC_BSLS,
+        KC_LSFT,  LT(BUTTON,KC_Z),  ALGR_T(KC_X),  KC_C,          KC_V,          KC_B,    KC_MUTE, KC_MPLY,  KC_N,  KC_M,          KC_COMM,       ALGR_T(KC_DOT),  LT(BUTTON,KC_SLSH),  KC_ENT,
+            KC_LALT, KC_LCTL, LT(MEDIA,KC_ESC), LT(NAV,KC_SPC), LT(MOUSE,KC_TAB),    LT(SYM,KC_ENT), LT(NUM,KC_BSPC), LT(FUN,KC_DEL), KC_LSFT, KC_LGUI
     ),
 
     // EXTRA: Colemak DH with the same modifier and thumb-layer behavior as BASE.
     [EXTRA] = LAYOUT(
-        KC_NO, KC_NO,           KC_NO,        KC_NO,        KC_NO,        KC_NO,                KC_NO, KC_NO,        KC_NO,        KC_NO,          KC_NO,              KC_NO,
-        KC_NO, KC_Q,            KC_W,         KC_F,         KC_P,         KC_B,                 KC_J,  KC_L,         KC_U,         KC_Y,           KC_QUOT,            KC_NO,
-        KC_NO, LGUI_T(KC_A),    LALT_T(KC_R), LCTL_T(KC_S), LSFT_T(KC_T), KC_G,                 KC_M,  LSFT_T(KC_N), LCTL_T(KC_E), LALT_T(KC_I),   LGUI_T(KC_O),       KC_NO,
-        KC_NO, LT(BUTTON,KC_Z), ALGR_T(KC_X), KC_C,         KC_D,         KC_V,   KC_NO, KC_NO, KC_K,  KC_H,         KC_COMM,      ALGR_T(KC_DOT), LT(BUTTON,KC_SLSH), KC_NO,
-            KC_NO, KC_NO, LT(MEDIA,KC_ESC), LT(NAV,KC_SPC), LT(MOUSE,KC_TAB),    LT(SYM,KC_ENT), LT(NUM,KC_BSPC), LT(FUN,KC_DEL), KC_NO, KC_NO
+        KC_GRV,   KC_1,             KC_2,          KC_3,          KC_4,          KC_5,                        KC_6,  KC_7,          KC_8,          KC_9,            KC_0,                KC_EQL,
+        KC_ESC,   KC_Q,             KC_W,          KC_F,          KC_P,          KC_B,                        KC_J,  KC_L,          KC_U,          KC_Y,            KC_QUOT,             KC_BSPC,
+        KC_TAB,   LGUI_T(KC_A),     LALT_T(KC_R),  LCTL_T(KC_S),  LSFT_T(KC_T),  KC_G,                        KC_M,  LSFT_T(KC_N),  LCTL_T(KC_E),  LALT_T(KC_I),    LGUI_T(KC_O),        KC_BSLS,
+        KC_LSFT,  LT(BUTTON,KC_Z),  ALGR_T(KC_X),  KC_C,          KC_D,          KC_V,    KC_MUTE, KC_MPLY,  KC_K,  KC_H,          KC_COMM,       ALGR_T(KC_DOT),  LT(BUTTON,KC_SLSH),  KC_ENT,
+            KC_LALT, KC_LCTL, LT(MEDIA,KC_ESC), LT(NAV,KC_SPC), LT(MOUSE,KC_TAB),    LT(SYM,KC_ENT), LT(NUM,KC_BSPC), LT(FUN,KC_DEL), KC_LSFT, KC_LGUI
     ),
 
     // TAP: QWERTY with plain tap keys. Power cycle to return to BASE.
     [TAP] = LAYOUT(
-        KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                KC_NO, KC_NO, KC_NO,   KC_NO,  KC_NO,   KC_NO,
-        KC_NO, KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,                 KC_Y,  KC_U,  KC_I,    KC_O,   KC_P,    KC_NO,
-        KC_NO, KC_A,  KC_S,  KC_D,  KC_F,  KC_G,                 KC_H,  KC_J,  KC_K,    KC_L,   KC_QUOT, KC_NO,
-        KC_NO, KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,   KC_NO, KC_NO, KC_N,  KC_M,  KC_COMM, KC_DOT, KC_SLSH, KC_NO,
-            KC_NO, KC_NO, KC_ESC, KC_SPC, KC_TAB,    KC_ENT, KC_BSPC, KC_DEL, KC_NO, KC_NO
+        KC_GRV,   KC_1,  KC_2,  KC_3,  KC_4,  KC_5,                        KC_6,  KC_7,  KC_8,     KC_9,    KC_0,     KC_EQL,
+        KC_ESC,   KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,                        KC_Y,  KC_U,  KC_I,     KC_O,    KC_P,     KC_BSPC,
+        KC_TAB,   KC_A,  KC_S,  KC_D,  KC_F,  KC_G,                        KC_H,  KC_J,  KC_K,     KC_L,    KC_QUOT,  KC_BSLS,
+        KC_LSFT,  KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,    KC_MUTE, KC_MPLY,  KC_N,  KC_M,  KC_COMM,  KC_DOT,  KC_SLSH,  KC_ENT,
+            KC_LALT, KC_LCTL, KC_ESC, KC_SPC, KC_TAB,    KC_ENT, KC_BSPC, KC_DEL, KC_LSFT, KC_LGUI
     ),
 
     // BUTTON: Mouse buttons on thumbs; clipboard shortcuts and plain modifiers on fingers.
     [BUTTON] = LAYOUT(
-        KC_NO, KC_NO,     KC_NO,    KC_NO,     KC_NO,      KC_NO,                    KC_NO,     KC_NO,      KC_NO,     KC_NO,    KC_NO,     KC_NO,
-        KC_NO, CLIP_UNDO, CLIP_CUT, CLIP_COPY, CLIP_PASTE, CLIP_REDO,                CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-        KC_NO, KC_LGUI,   KC_LALT,  KC_LCTL,   KC_LSFT,    KC_NO,                    KC_NO,     KC_LSFT,    KC_LCTL,   KC_LALT,  KC_LGUI,   KC_NO,
-        KC_NO, CLIP_UNDO, CLIP_CUT, CLIP_COPY, CLIP_PASTE, CLIP_REDO,  KC_NO, KC_NO, CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-            KC_NO, KC_NO, MS_BTN3, MS_BTN1, MS_BTN2,    MS_BTN2, MS_BTN1, MS_BTN3, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,     KC_TRNS,                          KC_TRNS,    KC_TRNS,     KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,
+        KC_TRNS,  CLIP_UNDO,  CLIP_CUT,  CLIP_COPY,  CLIP_PASTE,  CLIP_REDO,                        CLIP_REDO,  CLIP_PASTE,  CLIP_COPY,  CLIP_CUT,  CLIP_UNDO,  KC_TRNS,
+        KC_TRNS,  KC_LGUI,    KC_LALT,   KC_LCTL,    KC_LSFT,     KC_NO,                            KC_NO,      KC_LSFT,     KC_LCTL,    KC_LALT,   KC_LGUI,    KC_TRNS,
+        KC_TRNS,  CLIP_UNDO,  CLIP_CUT,  CLIP_COPY,  CLIP_PASTE,  CLIP_REDO,    KC_TRNS, KC_TRNS,  CLIP_REDO,  CLIP_PASTE,  CLIP_COPY,  CLIP_CUT,  CLIP_UNDO,  KC_TRNS,
+            KC_TRNS, KC_TRNS, MS_BTN3, MS_BTN1, MS_BTN2,    MS_BTN2, MS_BTN1, MS_BTN3, KC_TRNS, KC_TRNS
     ),
 
     // NAV: Hold left Space. VI arrows on QWERTY H/J/K/L; left hand: modifiers/selectors.
     [NAV] = LAYOUT(
-        KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,       KC_NO,                KC_NO,     KC_NO,      KC_NO,     KC_NO,    KC_NO,     KC_NO,
-        KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE), KC_NO,                CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,     KC_NO,                KC_LEFT,   KC_DOWN,    KC_UP,     KC_RGHT,  CW_TOGG,   KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_NUM),   TD(TD_NAV),  KC_NO,  KC_NO, KC_NO, KC_HOME,   KC_PGDN,    KC_PGUP,   KC_END,   KC_INS,    KC_NO,
-            KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    KC_ENT, KC_BSPC, KC_DEL, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,      KC_TRNS,     KC_TRNS,       KC_TRNS,      KC_TRNS,                        KC_TRNS,    KC_TRNS,     KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,
+        KC_TRNS,  TD(TD_BOOT),  TD(TD_TAP),  TD(TD_EXTRA),  TD(TD_BASE),  KC_NO,                          CLIP_REDO,  CLIP_PASTE,  CLIP_COPY,  CLIP_CUT,  CLIP_UNDO,  KC_TRNS,
+        KC_TRNS,  KC_LGUI,      KC_LALT,     KC_LCTL,       KC_LSFT,      KC_NO,                          KC_LEFT,    KC_DOWN,     KC_UP,      KC_RGHT,   CW_TOGG,    KC_TRNS,
+        KC_TRNS,  KC_NO,        KC_ALGR,     TD(TD_NUM),    TD(TD_NAV),   KC_NO,      C(KC_O), C(KC_I),  KC_HOME,    KC_PGDN,     KC_PGUP,    KC_END,    KC_INS,     KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,    KC_ENT, KC_BSPC, KC_DEL, KC_TRNS, KC_TRNS
     ),
 
     // MOUSE: Hold left Tab. VI pointer/wheel arrangement; left hand: modifiers/selectors.
     [MOUSE] = LAYOUT(
-        KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,        KC_NO,                KC_NO,     KC_NO,      KC_NO,     KC_NO,    KC_NO,     KC_NO,
-        KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE),  KC_NO,                CLIP_REDO, CLIP_PASTE, CLIP_COPY, CLIP_CUT, CLIP_UNDO, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                MS_LEFT,   MS_DOWN,    MS_UP,     MS_RGHT,  KC_NO,     KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_SYM),   TD(TD_MOUSE), KC_NO,  KC_NO, KC_NO, MS_WHLL,   MS_WHLD,    MS_WHLU,   MS_WHLR,  KC_NO,     KC_NO,
-            KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    MS_BTN2, MS_BTN1, MS_BTN3, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,      KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                        KC_TRNS,    KC_TRNS,     KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,
+        KC_TRNS,  TD(TD_BOOT),  TD(TD_TAP),  TD(TD_EXTRA),  TD(TD_BASE),   KC_NO,                          CLIP_REDO,  CLIP_PASTE,  CLIP_COPY,  CLIP_CUT,  CLIP_UNDO,  KC_TRNS,
+        KC_TRNS,  KC_LGUI,      KC_LALT,     KC_LCTL,       KC_LSFT,       KC_NO,                          MS_LEFT,    MS_DOWN,     MS_UP,      MS_RGHT,   KC_NO,      KC_TRNS,
+        KC_TRNS,  KC_NO,        KC_ALGR,     TD(TD_SYM),    TD(TD_MOUSE),  KC_NO,      KC_TRNS, KC_TRNS,  MS_WHLL,    MS_WHLD,     MS_WHLU,    MS_WHLR,   KC_NO,      KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,    MS_BTN2, MS_BTN1, MS_BTN3, KC_TRNS, KC_TRNS
     ),
 
     // MEDIA: Hold left Escape. VI RGB/media/output arrangement; left hand: modifiers/selectors.
     [MEDIA] = LAYOUT(
-        KC_NO, KC_NO,       KC_NO,      KC_NO,        KC_NO,        KC_NO,                KC_NO,      KC_NO,    KC_NO,      KC_NO,      KC_NO,      KC_NO,
-        KC_NO, TD(TD_BOOT), TD(TD_TAP), TD(TD_EXTRA), TD(TD_BASE),  KC_NO,                RGB_NEXT,   RGB_HUE_UP, RGB_SAT_UP, RGB_VAL_UP, RGB_TOGGLE, KC_NO,
-        KC_NO, KC_LGUI,     KC_LALT,    KC_LCTL,      KC_LSFT,      KC_NO,                KC_MPRV,    KC_VOLD,    KC_VOLU,    KC_MNXT,    KC_NO,      KC_NO,
-        KC_NO, KC_NO,       KC_ALGR,    TD(TD_FUN),   TD(TD_MEDIA), KC_NO,  KC_NO, KC_NO, KC_NO,      KC_NO,      KC_NO,      KC_NO,      OU_AUTO,    KC_NO,
-            KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,    KC_MSTP, KC_MPLY, KC_MUTE, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,      KC_TRNS,     KC_TRNS,       KC_TRNS,       KC_TRNS,                        KC_TRNS,   KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,     KC_TRNS,
+        KC_TRNS,  TD(TD_BOOT),  TD(TD_TAP),  TD(TD_EXTRA),  TD(TD_BASE),   KC_NO,                          RGB_NEXT,  RGB_HUE_UP,  RGB_SAT_UP,  RGB_VAL_UP,  RGB_TOGGLE,  KC_TRNS,
+        KC_TRNS,  KC_LGUI,      KC_LALT,     KC_LCTL,       KC_LSFT,       KC_NO,                          KC_MPRV,   KC_VOLD,     KC_VOLU,     KC_MNXT,     KC_NO,       KC_TRNS,
+        KC_TRNS,  KC_NO,        KC_ALGR,     TD(TD_FUN),    TD(TD_MEDIA),  KC_NO,      KC_VOLD, KC_VOLU,  KC_NO,     KC_NO,       KC_NO,       KC_NO,       OU_AUTO,     KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,    KC_MSTP, KC_MPLY, KC_MUTE, KC_TRNS, KC_TRNS
     ),
 
     // NUM: Hold right Backspace. Left hand: numbers/punctuation; right hand: modifiers/selectors.
     [NUM] = LAYOUT(
-        KC_NO, KC_NO,   KC_NO, KC_NO, KC_NO, KC_NO,                  KC_NO, KC_NO,       KC_NO,        KC_NO,      KC_NO,       KC_NO,
-        KC_NO, KC_LBRC, KC_7,  KC_8,  KC_9,  KC_RBRC,                KC_NO, TD(TD_BASE), TD(TD_EXTRA), TD(TD_TAP), TD(TD_BOOT), KC_NO,
-        KC_NO, KC_SCLN, KC_4,  KC_5,  KC_6,  KC_EQL,                 KC_NO, KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,     KC_NO,
-        KC_NO, KC_GRV,  KC_1,  KC_2,  KC_3,  KC_BSLS,  KC_NO, KC_NO, KC_NO, TD(TD_NUM),  TD(TD_NAV),   KC_ALGR,    KC_NO,       KC_NO,
-            KC_NO, KC_NO, KC_DOT, KC_0, KC_MINS,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                        KC_TRNS,  KC_TRNS,      KC_TRNS,       KC_TRNS,     KC_TRNS,      KC_TRNS,
+        KC_TRNS,  KC_LBRC,  KC_7,     KC_8,     KC_9,     KC_RBRC,                        KC_NO,    TD(TD_BASE),  TD(TD_EXTRA),  TD(TD_TAP),  TD(TD_BOOT),  KC_TRNS,
+        KC_TRNS,  KC_SCLN,  KC_4,     KC_5,     KC_6,     KC_EQL,                         KC_NO,    KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,      KC_TRNS,
+        KC_TRNS,  KC_GRV,   KC_1,     KC_2,     KC_3,     KC_BSLS,    KC_TRNS, KC_TRNS,  KC_NO,    TD(TD_NUM),   TD(TD_NAV),    KC_ALGR,     KC_NO,        KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_DOT, KC_0, KC_MINS,    KC_NO, KC_NO, KC_NO, KC_TRNS, KC_TRNS
     ),
 
     // SYM: Hold right Enter. Left hand: shifted number/punctuation symbols.
     [SYM] = LAYOUT(
-        KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                  KC_NO, KC_NO,       KC_NO,        KC_NO,      KC_NO,       KC_NO,
-        KC_NO, KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR,                KC_NO, TD(TD_BASE), TD(TD_EXTRA), TD(TD_TAP), TD(TD_BOOT), KC_NO,
-        KC_NO, KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS,                KC_NO, KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,     KC_NO,
-        KC_NO, KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_PIPE,  KC_NO, KC_NO, KC_NO, TD(TD_SYM),  TD(TD_MOUSE), KC_ALGR,    KC_NO,       KC_NO,
-            KC_NO, KC_NO, KC_LPRN, KC_RPRN, KC_UNDS,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                        KC_TRNS,  KC_TRNS,      KC_TRNS,       KC_TRNS,     KC_TRNS,      KC_TRNS,
+        KC_TRNS,  KC_LCBR,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RCBR,                        KC_NO,    TD(TD_BASE),  TD(TD_EXTRA),  TD(TD_TAP),  TD(TD_BOOT),  KC_TRNS,
+        KC_TRNS,  KC_COLN,  KC_DLR,   KC_PERC,  KC_CIRC,  KC_PLUS,                        KC_NO,    KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,      KC_TRNS,
+        KC_TRNS,  KC_TILD,  KC_EXLM,  KC_AT,    KC_HASH,  KC_PIPE,    KC_TRNS, KC_TRNS,  KC_NO,    TD(TD_SYM),   TD(TD_MOUSE),  KC_ALGR,     KC_NO,        KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_LPRN, KC_RPRN, KC_UNDS,    KC_NO, KC_NO, KC_NO, KC_TRNS, KC_TRNS
     ),
 
     // FUN: Hold right Delete. Left hand: F1-F12 and system keys.
     [FUN] = LAYOUT(
-        KC_NO, KC_NO,  KC_NO, KC_NO, KC_NO, KC_NO,                  KC_NO, KC_NO,       KC_NO,        KC_NO,      KC_NO,       KC_NO,
-        KC_NO, KC_F12, KC_F7, KC_F8, KC_F9, KC_PSCR,                KC_NO, TD(TD_BASE), TD(TD_EXTRA), TD(TD_TAP), TD(TD_BOOT), KC_NO,
-        KC_NO, KC_F11, KC_F4, KC_F5, KC_F6, KC_SCRL,                KC_NO, KC_LSFT,     KC_LCTL,      KC_LALT,    KC_LGUI,     KC_NO,
-        KC_NO, KC_F10, KC_F1, KC_F2, KC_F3, KC_PAUS,  KC_NO, KC_NO, KC_NO, TD(TD_FUN),  TD(TD_MEDIA), KC_ALGR,    KC_NO,       KC_NO,
-            KC_NO, KC_NO, KC_APP, KC_SPC, KC_TAB,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+        KC_F1,    KC_F2,   KC_F3,  KC_F4,  KC_F5,  KC_F6,                          KC_F7,  KC_F8,        KC_F9,         KC_F10,      KC_F11,       KC_F12,
+        KC_TRNS,  KC_F12,  KC_F7,  KC_F8,  KC_F9,  KC_PSCR,                        KC_NO,  TD(TD_BASE),  TD(TD_EXTRA),  TD(TD_TAP),  TD(TD_BOOT),  KC_TRNS,
+        KC_TRNS,  KC_F11,  KC_F4,  KC_F5,  KC_F6,  KC_SCRL,                        KC_NO,  KC_LSFT,      KC_LCTL,       KC_LALT,     KC_LGUI,      KC_TRNS,
+        KC_TRNS,  KC_F10,  KC_F1,  KC_F2,  KC_F3,  KC_PAUS,    KC_TRNS, KC_TRNS,  KC_NO,  TD(TD_FUN),   TD(TD_MEDIA),  KC_ALGR,     KC_NO,        KC_TRNS,
+            KC_TRNS, KC_TRNS, KC_APP, KC_SPC, KC_TAB,    KC_NO, KC_NO, KC_NO, KC_TRNS, KC_TRNS
     ),
 
 };
@@ -295,7 +296,8 @@ combo_t key_combos[] = {
 
 // 10. Sofle conveniences. Rotation keeps the existing default keymap behavior:
 // left encoder = volume; right encoder = page up/down. Buttons are independent
-// LAYOUT positions (KC_NO above), and can be assigned even without encoders.
+// LAYOUT positions with audio/NAV actions. Rotation is disabled in rules.mk
+// for this keyboard's replacement switches; enable it only with real encoders.
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (index == 0) {
