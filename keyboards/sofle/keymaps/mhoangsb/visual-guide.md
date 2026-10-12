@@ -22,6 +22,23 @@ RGB controls are displayed but lighting support is currently disabled.
 The two positions labelled `LENC` and `RENC` are your ordinary replacement
 buttons; rotary encoder support is disabled.
 
+### Hold or tap then hold
+
+All keys with both a tap character and a modifier/layer hold on BASE and EXTRA
+use these timing rules:
+
+- **Hold directly for about 200 ms:** activate the modifier or layer, such as
+  Left Shift on BASE's J or NUM on the core Backspace thumb.
+- **Tap, release, then press and hold the same key within 120 ms of release:**
+  repeat the tap action, such as `jjjj...` or repeated deletion. The OS controls
+  repeat delay and speed. Release the key to stop.
+- **Wait longer than 120 ms after the tap before holding:** use the normal
+  200 ms modifier/layer hold again.
+
+Tune `TAPPING_TERM` and `QUICK_TAP_TERM` in `config.h`; see
+[tap/hold timing](readme.md#tune-taphold-timing). Plain keys and the guarded
+double-tap selectors keep their existing behavior.
+
 ## Getting to a layer
 
 The following holds work from **BASE or EXTRA**. Use the named core thumb key,

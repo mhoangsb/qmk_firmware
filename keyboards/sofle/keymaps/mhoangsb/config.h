@@ -10,8 +10,8 @@
 #undef TAPPING_TERM
 #define TAPPING_TERM 200
 
-// A quick tap followed by a hold becomes the hold action rather than repeat.
-#define QUICK_TAP_TERM 0
+// Tap, then press and hold the same key within 120 ms to repeat its tap action.
+#define QUICK_TAP_TERM 120
 
 // Current QMK already ignores interruptions for mod-taps by default.
 // Do not add the obsolete IGNORE_MOD_TAP_INTERRUPT define from old Miryoku.

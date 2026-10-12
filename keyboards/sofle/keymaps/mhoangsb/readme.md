@@ -464,10 +464,25 @@ Start with `TAPPING_TERM 200` in `config.h`. Increase it if slow taps turn into
 holds. Decrease it if holds take too long to become modifiers/layers. Timing
 also interacts with key press/release order; it is not just a stopwatch rule.
 
-`QUICK_TAP_TERM 0` allows tap-then-hold to invoke the hold action immediately
-instead of repeating the tap character. For example, tap-then-hold Backspace
-opens NUM instead of repeating deletion. To favor repetition, try a nonzero
-`QUICK_TAP_TERM` no larger than `TAPPING_TERM`.
+The current settings apply to all mod-tap and layer-tap keys on BASE and EXTRA:
+
+```c
+#define TAPPING_TERM 200
+#define QUICK_TAP_TERM 120
+```
+
+- Hold a key directly for about 200 ms to activate its modifier or layer. For
+  example, holding J on BASE activates Left Shift; holding core Backspace opens NUM.
+- Tap and release, then press and hold the same key within 120 ms of release
+  to hold its tap key down instead. For example, J repeats `jjjj...`, and core
+  Backspace repeats deletion rather than opening NUM. Repeat delay and speed
+  follow the host OS settings; releasing the key stops repetition.
+- If the gap after the tap exceeds 120 ms, the second press uses the normal
+  200 ms tap/hold decision again.
+
+`QUICK_TAP_TERM` must be no larger than `TAPPING_TERM`. Set it to 0 to disable
+tap-then-hold repetition. These settings do not add alternate hold actions to
+plain keys or change the guarded Tap Dance selectors into repeat keys.
 
 Current QMK already uses the mod-tap interruption behavior requested by old
 Miryoku. `IGNORE_MOD_TAP_INTERRUPT` is obsolete and causes an error in this
